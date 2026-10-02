@@ -11,6 +11,10 @@ Usage (from SIH/ directory):
 """
 import sys
 import os
+import torch
+
+# Prevent PyTorch from allocating large memory thread pools
+torch.set_num_threads(1)
 
 # Ensure backend/src is importable
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "backend"))

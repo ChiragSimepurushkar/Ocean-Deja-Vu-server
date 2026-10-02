@@ -11,7 +11,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # Install ONLY the necessary production serving dependencies
 # (Avoids 10+ minute pip backtracking loops from heavy training packages)
-RUN pip install --no-cache-dir fastapi uvicorn[standard] torch torchvision "zarr<3.0" numpy pandas scipy scikit-learn faiss-cpu httpx
+RUN pip install --no-cache-dir fastapi uvicorn[standard] torch torchvision "zarr<3.0" numpy pandas scipy scikit-learn faiss-cpu httpx --index-url https://download.pytorch.org/whl/cpu
 
 # Copy all the backend code and data
 COPY backend/ ./backend/
@@ -19,14 +19,14 @@ COPY backend/ ./backend/
 # Copy the server launch script
 COPY start_server.py .
 
-# Expose port 7860 (Strict requirement for Hugging Face Spaces)
-EXPOSE 7860
+# Expose port 8000 for the Cloud Provider
+EXPOSE 8000
 
 # Set environment variables to enable the Live Model!
 ENV PYTHONPATH=/app/backend
 ENV ODV_LIVE_MODEL=1
 ENV HOST=0.0.0.0
-ENV PORT=7860
+ENV PORT=8000
 
 # Start the server
 CMD ["python", "start_server.py"]
