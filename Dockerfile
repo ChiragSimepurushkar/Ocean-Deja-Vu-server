@@ -9,9 +9,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy requirements and install them
-COPY backend/requirements.txt ./backend/requirements.txt
-RUN pip install --no-cache-dir -r backend/requirements.txt
+# Install ONLY the necessary production serving dependencies
+# (Avoids 10+ minute pip backtracking loops from heavy training packages)
+RUN pip install --no-cache-dir fastapi uvicorn[standard] torch torchvision "zarr<3.0" numpy pandas scipy scikit-learn faiss-cpu httpx
 
 # Copy all the backend code and data
 COPY backend/ ./backend/
