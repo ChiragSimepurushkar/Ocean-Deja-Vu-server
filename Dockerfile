@@ -25,7 +25,7 @@ EXPOSE 8000
 
 # Set environment variables to enable the Live Model!
 ENV PYTHONPATH=/app/backend
-ENV ODV_LIVE_MODEL=1
+# ENV ODV_LIVE_MODEL=1
 ENV HOST=0.0.0.0
 ENV PORT=8000
 
