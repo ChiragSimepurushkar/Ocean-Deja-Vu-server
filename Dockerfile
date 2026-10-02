@@ -19,14 +19,14 @@ COPY backend/ ./backend/
 # Copy the server launch script
 COPY start_server.py .
 
-# Expose port 8000 for the Cloud Provider
-EXPOSE 8000
+# Expose port 7860 (Strict requirement for Hugging Face Spaces)
+EXPOSE 7860
 
 # Set environment variables to enable the Live Model!
 ENV PYTHONPATH=/app/backend
 ENV ODV_LIVE_MODEL=1
 ENV HOST=0.0.0.0
-ENV PORT=8000
+ENV PORT=7860
 
 # Start the server
 CMD ["python", "start_server.py"]
