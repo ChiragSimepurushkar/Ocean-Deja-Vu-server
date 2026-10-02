@@ -10,8 +10,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 # Install ONLY the necessary production serving dependencies
-# (Avoids 10+ minute pip backtracking loops from heavy training packages)
-RUN pip install --no-cache-dir fastapi uvicorn[standard] torch torchvision "zarr<3.0" numpy pandas scipy scikit-learn faiss-cpu httpx --index-url https://download.pytorch.org/whl/cpu
+# We install PyTorch CPU-only version first to save massive amounts of RAM/Disk
+RUN pip install --no-cache-dir torch torchvision --index-url https://download.pytorch.org/whl/cpu
+RUN pip install --no-cache-dir fastapi uvicorn[standard] "zarr<3.0" numpy pandas scipy scikit-learn faiss-cpu httpx
 
 # Copy all the backend code and data
 COPY backend/ ./backend/
